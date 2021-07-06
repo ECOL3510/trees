@@ -7,7 +7,7 @@ output: html_document
 As always, we begin with the `install_packages()` (if needed) and `library()` commands to install and load individual packages, respectively.
 ```{r}
 #install.packages('tidyverse', repos = "http://cran.us.r-project.org")
-install.packages('neonUtilities', repos = "http://cran.us.r-project.org")
+#install.packages('neonUtilities', repos = "http://cran.us.r-project.org")
 
 library(tidyverse)
 library(neonUtilities)
@@ -23,7 +23,7 @@ For each type of NEON data you want to download, you need to know a few things:
 
 If you are unsure about the specific data product IDs you need or site codes, navigate to the [NEON data portal](https://data.neonscience.org/data-products/explore) to find that information.
 
-### Practice: Small mammal data
+### Relative humidity data
 For practice, we'll download small mammal data from one of our most familiar NEON sites- SCBI between Jan. 2018 and Dec. 2019. 
 
 If you do not want to specify start- and end-dates for your data download, you can omit those lines, which will have R download data from all available dates. **Note that after you initiate the following code chunk, you need to go into the Console and type y to proceed with the download**
@@ -32,10 +32,12 @@ If you do not want to specify start- and end-dates for your data download, you c
 We use the code chunk below to specify the NEON data package we want to download (dpID) and the site(s).  
 By default, NEON data is saved to R as a *list* of data files. However, we have included the `list2env` command as a wrapper below so that the data are saved as separate objects in our RStudio environment pane.
 ```{r, eval = FALSE}
-list2env((loadByProduct(dpID = 'DP1.00098.001',
-                           site = c('ABBY', 'STER', 'OAES', 'DSNY'),
-                           startdate = '2014-01',  # YYYY-MM
-                           enddate = '2020-12')),  # YYYY-MM
+list2env((loadByProduct(dpID = 'DP1.00098.001', # Relative humidity data
+                        site = c('ABBY', 'STER', 'OAES', 'DSNY'),
+                        startdate = '2014-01',  # YYYY-MM
+                        enddate = '2020-12',    # YYYY-MM
+          # Use getTimeIndex('dpID') to see time index options (minutes)
+                        timeIndex = "30")),    # Time index
          .GlobalEnv)
 ```
 
@@ -46,7 +48,7 @@ files <- mget(ls())
 
 for (i in 1:length(files)){
   # Change the SCBI_mammals text below to indicate the name of the folder where you want to store your data
-  write_csv(files[[i]], file = paste0("./SCBI_mammals/", names(files[i]), ".csv", sep=""))
+  write_csv(files[[i]], file = paste0("./raw_humidity/", names(files[i]), ".csv", sep=""))
 }
 ```
 
@@ -56,12 +58,15 @@ However, to avoid any R errors, you'll want to run the following command to clea
 rm(list = ls())
 ```
 
+### Single-aspirated air temperature
 Update the chunk below for the next data product you would like to download:
 ```{r, eval = FALSE}
-list2env((loadByProduct(dpID = 'DP1.10072.001',
-                           site = c('ORNL', 'ABBY'),
-                           startdate = ,  # YYYY-MM
-                           enddate = '2019-12')),  # YYYY-MM
+list2env((loadByProduct(dpID = 'DP1.00002.001', # Single-aspirated air temp
+                           site = c('ABBY', 'STER', 'OAES', 'DSNY'),
+                        startdate = '2014-01',  # YYYY-MM
+                        enddate = '2020-12',    # YYYY-MM
+          # Use getTimeIndex('dpID') to see time index options (minutes)
+                        timeIndex = "30")),    # Time index
          .GlobalEnv)
 ```
 
@@ -71,6 +76,6 @@ files <- mget(ls())
 
 for (i in 1:length(files)){
   # Change the SCBI_mammals text below to indicate the name of the folder where you want to store your data
-  write_csv(files[[i]], file = paste0("./birds/", names(files[i]), ".csv", sep=""))
+  write_csv(files[[i]], file = paste0("./raw_temp/", names(files[i]), ".csv", sep=""))
 }
 ```
