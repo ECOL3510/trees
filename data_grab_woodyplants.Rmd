@@ -6,8 +6,8 @@ output: html_document
 ### Install & load packages  
 As always, we begin with the `install_packages()` (if needed) and `library()` commands to install and load individual packages, respectively.
 ```{r}
-install.packages('tidyverse', repos = "http://cran.us.r-project.org")
-install.packages('neonUtilities', repos = "http://cran.us.r-project.org")
+#install.packages('tidyverse', repos = "http://cran.us.r-project.org")
+#install.packages('neonUtilities', repos = "http://cran.us.r-project.org")
 
 library(tidyverse)
 library(neonUtilities)
