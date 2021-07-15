@@ -9,9 +9,9 @@ library(lubridate)
 library(hms)
 ```
 
-# Read in raw **mammal** data
+# Read in raw **woody plant** data
 ```{r}
-path <- "./woody_plants/"
+path <- "./raw_plants/"
 
 files <- list.files(path=path, pattern="*.csv")
 
@@ -23,7 +23,7 @@ for(file in files){
 }
 ```
 
-# Wrangle temperature data
+# Wrangle plant data
 We always want to keep our **raw** data **raw**, so our next step will be to save a copy of our temperature data data as a different data object. Also for simplicity, we'll call it "temp" (shorter to type!)
 
 First, we'll remove 'NA' values in the tempSingleMean column
@@ -32,7 +32,7 @@ raw_plants <- vst_apparentindividual %>%
   filter(!is.na(height))
 ```
 
-Next, we want to simplify our temperature data to at least a daily value. To do this, we will first use a `mutate()` function to create separate columns for date and time (rather than combined datetime). Next, we `select()` the columns we want to keep (including our new date and time columns)
+Next, we may want to simplify our data to at least a monthly or daily value. To do this, we will first use a `mutate()` function to create separate columns for date and time (rather than combined datetime). Next, we `select()` the columns we want to keep (including our new date and time columns)
 
 To know which columns we might want to `select()`, it's helpful to have R re-print the column names for us.
 ```{r}
@@ -48,7 +48,7 @@ plants <- raw_plants %>%
          year = year(date)) %>% 
   select(siteID, year, month, date, height, dataQF)
 
-View(plants)
+glimpse(plants)
 ```
 
 Now, we can group and summarize our data to get (in this example) monthly temperature values
@@ -59,16 +59,16 @@ monthly_height <- plants  %>%
   arrange(siteID, year, month) %>% 
   mutate(date = make_date(year, month))
 
-View(monthly_height)
+print(monthly_height)
 ```
 
 If you want to save a copy of your *subset* data file, you can run the following command:
 ```{r}
 monthly_height %>% 
-  write_csv('./cleaned_data_woodyplants/monthly_height.csv')
+  write_csv('./cleaned_data/monthly_height.csv')
 ```
 
-# Quickly visualize cleaned up temperature data
+# Quickly visualize cleaned up data
 It's always a good idea to take a quick look at your data to make sure nothing looks *off* (e.g., major outliers, etc)
 ```{r}
 ggplot(monthly_height, aes(x = date,
