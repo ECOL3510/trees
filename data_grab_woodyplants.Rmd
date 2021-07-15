@@ -3,17 +3,16 @@ title: "NEON data download"
 output: html_document
 ---
 
-### Install & load packages  
-As always, we begin with the `install_packages()` (if needed) and `library()` commands to install and load individual packages, respectively.
+# Install & load packages  
+As always, we begin with the `install_packages()` (if needed) and `library()` commands to install and load individual packages
 ```{r}
 #install.packages('tidyverse', repos = "http://cran.us.r-project.org")
 #install.packages('neonUtilities', repos = "http://cran.us.r-project.org")
-
 library(tidyverse)
 library(neonUtilities)
 ```
 
-### Preparing to download data from NEON website
+# Preparing to download data from NEON website
 Now that our packages are loaded, we are ready to start exploring data! 
 
 For each type of NEON data you want to download, you need to know a few things:
@@ -23,28 +22,28 @@ For each type of NEON data you want to download, you need to know a few things:
 
 If you are unsure about the specific data product IDs you need or site codes, navigate to the [NEON data portal](https://data.neonscience.org/data-products/explore) to find that information.
 
-### Woody Plant data
-If you do not want to specify start- and end-dates for your data download, you can omit those lines, which will have R download data from all available dates. **Note that after you initiate the following code chunk, you need to go into the Console and type y to proceed with the download**
+# Download each data product
+## Woody Plant data
+**Note that after you initiate the following code chunk, you need to go into the Console and type y to proceed with the download**
 
-#### Download raw Woody Plant data from NEON
+### Download raw Woody Plant data from NEON
 We use the code chunk below to specify the NEON data package we want to download (dpID) and the site(s).  
 By default, NEON data is saved to R as a *list* of data files. However, we have included the `list2env` command as a wrapper below so that the data are saved as separate objects in our RStudio environment pane.
 ```{r, eval = FALSE}
 list2env((loadByProduct(dpID = 'DP1.10098.001',
-                           site = c('ABBY', 'STER', 'OAES', 'DSNY'),
+                           site = c('ABBY', 'DSNY', 'HARV', 'JERC', 'MLBS', 'ONAQ', 'SCBI', 'UNDE'),
                            startdate = '2014-01',  # YYYY-MM
                            enddate = '2020-12')),  # YYYY-MM
          .GlobalEnv)
 ```
 
-#### Save each downloaded file
+### Save each downloaded file
 We now want to save a *local* copy of each of these files, so we don't have to run this download script each time we want to work with the data!
 ```{r, eval = FALSE}
 files <- mget(ls())
 
 for (i in 1:length(files)){
-  # Change the SCBI_mammals text below to indicate the name of the folder where you want to store your data
-  write_csv(files[[i]], file = paste0("./woody_plants/", names(files[i]), ".csv", sep=""))
+  write_csv(files[[i]], file = paste0("./raw_plants/", names(files[i]), ".csv", sep=""))
 }
 ```
 
@@ -54,21 +53,71 @@ However, to avoid any R errors, you'll want to run the following command to clea
 rm(list = ls())
 ```
 
-Update the chunk below for the next data product you would like to download:
+## Single-aspirated air temperature
 ```{r, eval = FALSE}
-list2env((loadByProduct(dpID = 'DP1.10098.001',
-                           site = c('ABBY', 'STER', 'OAES', 'DSNY'),
-                           startdate = '2014-01',  # YYYY-MM
-                           enddate = '2020-12')),  # YYYY-MM
+list2env((loadByProduct(dpID = 'DP1.00002.001', # Single-aspirated air temp
+                           site = c('ABBY', 'DSNY', 'HARV', 'JERC', 'MLBS', 'ONAQ', 'SCBI', 'UNDE'),
+                        startdate = '2014-01',  # YYYY-MM
+                        enddate = '2020-12',    # YYYY-MM
+          # Use getTimeIndex('dpID') to see time index options (minutes)
+                        timeIndex = "30")),    # Time index
          .GlobalEnv)
 ```
-
-Before you run the next chunk, remember to update the folder name of where you want your files to be saved if it's somewhere different than you saved your last file batch!
+#### Save each downloaded file
 ```{r, eval = FALSE}
 files <- mget(ls())
 
 for (i in 1:length(files)){
+  write_csv(files[[i]], file = paste0("./raw_temp/", names(files[i]), ".csv", sep=""))
+}
+```
+
+#### Clear environment
+```{r}
+rm(list = ls())
+```
+
+## Relative humidity 
+```{r, eval = FALSE}
+list2env((loadByProduct(dpID = 'DP1.00098.001', # Relative humidity data
+                        site = c('ABBY', 'DSNY', 'HARV', 'JERC', 'MLBS', 'ONAQ', 'SCBI', 'UNDE'),
+                        startdate = '2014-01',  # YYYY-MM
+                        enddate = '2020-12',    # YYYY-MM
+          # Use getTimeIndex('dpID') to see time index options (minutes)
+                        timeIndex = "30")),    # Time index
+         .GlobalEnv)
+```
+
+#### Save each downloaded file
+```{r, eval = FALSE}
+files <- mget(ls())
+
+for (i in 1:length(files)){
+  write_csv(files[[i]], file = paste0("./raw_humidity/", names(files[i]), ".csv", sep=""))
+}
+```
+
+#### Clear environment
+```{r}
+rm(list = ls())
+```
+
+## Soil Moisture Content
+```{r}
+list2env((loadByProduct(dpID = 'DP1.00094.001', # soil moisture content
+                        site = c('ABBY', 'DSNY', 'HARV', 'JERC', 'MLBS', 'ONAQ', 'SCBI', 'UNDE'), # Sites
+                        startdate = '2014-01', # YYYY-MM
+                        enddate = '2020-12',   # YYYY-MM
+                        timeIndex = "30",      # 30-minute average values
+                        nCores=3)),            # Run on 3 cores to accelerate; may need to modify based on your comptuter!
+         .GlobalEnv)
+```
+
+```{r}
+files <- mget(ls())
+
+for (i in 1:length(files)){
   # Change the SCBI_mammals text below to indicate the name of the folder where you want to store your data
-  write_csv(files[[i]], file = paste0("./SCBI_mammals_raw/", names(files[i]), ".csv", sep=""))
+  write_csv(files[[i]], file = paste0("./raw_soil_moisture/", names(files[i]), ".csv", sep=""))
 }
 ```
