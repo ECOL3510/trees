@@ -5,45 +5,37 @@ output: html_document
 
 # Load necessary packages
 ```{r}
-install.packages('pacman', repos = "http://cran.us.r-project.org")
-pacman::p_load(tidyverse, broom, lubridate, performance, see, qqplotr, gvlma, car, ggrepel, gridExtra, ggplot)
+#install.packages('pacman', repos = "http://cran.us.r-project.org")
+pacman::p_load(tidyverse, broom, lubridate, performance, see, qqplotr, gvlma, car, ggrepel, gridExtra)
 ```
 
 # Load cleaned data files
-## Data type 1: 
+## Data type 1: Air temperature
 ```{r, eval = FALSE}
-temp <- read_csv('./cleaned_data/monthly_temp.csv')
+temp <- read_csv('./cleaned_data/monthly_temp.csv') %>% 
+  rename(monthlyMean_temp = monthlyMean)
 
 glimpse(temp)
 ```
 
-## Data type 2:
+## Data type 2: Soil moisture
 ```{r, eval = FALSE}
-soil_moisture <- read_csv('./cleaned_data_woodyplants/monthly_moisture.csv')
+soil_moisture <- read_csv('./cleaned_data/monthly_moisture.csv') %>% 
+  rename(monthlyMean_soil = monthlyMean)
 
 glimpse(soil_moisture)
 ```
-## Data type 3:
+
+## Data type 3: Canopy height
 ```{r, eval = FALSE}
-height <- read_csv('./cleaned_data_woodyplants/monthly_height.csv')
+height <- read_csv('./cleaned_data/monthly_height.csv') %>% 
+  rename(monthlyMean_height = monthlyMean)
 
 glimpse(height)
 ```
 
 ## Combine data files based on shared criteria
 Type out some details of what the column names are that your data objects have in common. Note that for R to combine them, the column names must be **exactly** the same (e.g., spelling, capitalization, etc.)
-
-```{r}
-temp <- temp %>% 
-  rename(monthlyMean_temp = monthlyMean)
-
-soil_moisture <- soil_moisture %>% 
-  rename(montlyMean_soil = monthlyMean)
-
-height <- height %>% 
-  rename(monthlyMean_height = monthlyMean)
-```
-
 
 ```{r, eval = FALSE}
 data <- full_join(temp, soil_moisture) %>%
@@ -66,12 +58,13 @@ Often, we report summary statistics like the mean, a measure of variance (standa
 
 We can do this easily through the use of `dplyr()` commands. In this example, we can calculate average annual values per site using:
 ```{r}
-summary <- data %>% 
+summary <- data %>%
   mutate(year = year(date)) %>% 
   group_by(siteID, year) %>% 
   summarize(n = n(),  # Sample size
-            monthlyMean_temp = mean(monthlyMean_temp), sd_monthlyMean_temp = sd(monthlyMean_temp), se_monthlyMean_temp = sd_monthlyMean_temp/sqrt(n), # Mean, sd, se for var1
-            siteID = mean(siteID), sd_siteID = sd(siteID), se_siteID = sd_siteID/sqrt(n)) # Mean, sd, se for var1
+            Mean_temp = mean(monthlyMean_temp), sd_temp = sd(monthlyMean_temp), se_temp = sd_temp/sqrt(n), # Temp
+            Mean_soil = mean(monthlyMean_soil), sd_soil = sd(monthlyMean_soil), se_soil = sd_soil/sqrt(n), # Soil moisture
+            Mean_height = mean(monthlyMean_height), sd_height = sd(monthlyMean_height), se_height = sd_height/sqrt(n)) # Canopy height
 
 glimpse(summary)
 ```
