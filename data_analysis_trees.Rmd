@@ -6,7 +6,7 @@ output: html_document
 # Load necessary packages
 ```{r}
 install.packages('pacman', repos = "http://cran.us.r-project.org")
-pacman::p_load(tidyverse, broom, lubridate, performance, see, qqplotr, gvlma, car, ggrepel, gridExtra)
+pacman::p_load(tidyverse, broom, lubridate, performance, see, qqplotr, gvlma, car, ggrepel, gridExtra, ggplot)
 ```
 
 # Load cleaned data files
@@ -204,6 +204,15 @@ ggplot(data = data, aes(x = monthlyMean_temp, # name the variable that goes on t
   theme_minimal()
 ```
 
+```{r}
+ggplot(data = data, aes(x = montlyMean_soil, # name the variable that goes on the x-axis
+                                    y = monthlyMean_height,  # name the variable that goes on the y-axis
+                                    col = siteID)) + # name the variable to differentiate colors
+  geom_point(pch = 16) +  # Graph these variables as a scatterplot
+  theme_minimal()
+```
+
+
 We can calculate a correlation coefficient to quantify the strength and direction of association between the two variables.
 
 The types of correlation you can use are:  
@@ -227,8 +236,8 @@ model_name2 <- lm(dependent_variable_name ~ independent_variable_name, data = da
 
 Next, we can use a few quick commands to check the linear regression model assumptions:
 ```{r, warning=F}
-check_model(model_name2)
-gvlma(model_name2)
+#check_model(model_name2)
+#gvlma(model_name2)
 ```
 
 If our model assumptions seem to be satisfied, we can look at the ANOVA output! 
