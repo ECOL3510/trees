@@ -1,18 +1,19 @@
 ---
-title: "Air Temp Data Wrangling"
+title: "Soil moisture content data wrangle"
 output: html_document
 ---
 
-# Install & load packages  
+#Install & load packages
 As always, we begin with the `install_packages()` (if needed) and `library()` commands to install and load individual packages, respectively.
-```{r}
+```{r, message = FALSE}
 library(tidyverse)
 library(lubridate)
 library(hms)
 ```
-#Read in raw **temp** data
+
+# Read in raw_soil_moisture data
 ```{r}
-path <- "./raw_air_temp/"
+path <- "./raw_soil_moisture/"
 
 files <- list.files(path=path, pattern="*.csv")
 
@@ -23,60 +24,54 @@ for(file in files){
     read_csv(paste(path,file,sep=""), guess_max = 10000))
 }
 ```
-# Wrangle temperature data
+
+# Wrangle Soil Moisture data
 We always want to keep our **raw** data **raw**, so our next step will be to save a copy of our temperature data data as a different data object. Also for simplicity, we'll call it "temp" (shorter to type!)
 
-First, we'll remove 'NA' values in the tempRHMean column
+First, we'll remove 'NA' values in the VSWCMean column
 ```{r}
-temp <- RH_30min %>% 
-  filter(!is.na(tempRHMean))
+soilmoisture<- SWS_30_minute %>% 
+  filter(!is.na(VSWCMean))
 ```
+
 
 Next, we want to simplify our temperature data to at least a daily value. To do this, we will first use a `mutate()` function to create separate columns for date and time (rather than combined datetime). Next, we `select()` the columns we want to keep (including our new date and time columns)
 
 To know which columns we might want to `select()`, it's helpful to have R re-print the column names for us.
 ```{r}
-names(temp)
+names(soilmoisture)
 ```
 
 **Super-important note!** Make sure you include any data quality columns in your initial `select()` function! (in this file, the column is called **finalQF**)
 ```{r}
-air_temp_sub <- temp %>% 
+moisture_sub <- soilmoisture %>% 
   mutate(date = as.Date(startDateTime),
          month = month(date),
          year = year(date),
          time = as_hms(startDateTime)) %>% 
-  select(siteID, year, month, startDateTime, endDateTime, time, tempRHMean, tempRHFinalQF)
+  select(VSWCMean,siteID,date,month,year,VSWCFinalQF)
 
-View(air_temp_sub)
+print(moisture_sub)
 ```
-We should only retain temperature values that do **not** have a failing quality flag (so our filter criterion would be: finalQF != 1 *or* finalQF == 0)
+We should only retain moisture values that do **not** have a failing quality flag (so our filter criterion would be: finalQF != 1 *or* finalQF == 0)
 ```{r}
-air_temp_sub <- air_temp_sub %>% 
-  filter(tempRHFinalQF != 1)
+moisture_sub <- moisture_sub %>% 
+  filter(VSWCFinalQF != 1)
 ```
 
 Now, we can group and summarize our data to get (in this example) monthly temperature values
 ```{r}
-monthly_temp <- air_temp_sub  %>% 
+monthly_moisture <- moisture_sub  %>% 
   group_by(siteID, year, month) %>% 
-  summarize(monthlyMean = mean(tempRHMean)) %>% 
+  summarize(monthlyMean = mean(VSWCMean)) %>% 
   arrange(siteID, year, month) %>% 
   mutate(date = make_date(year, month))
 
-View(monthly_temp)
+print(monthly_moisture)
 ```
+
 If you want to save a copy of your *subset* data file, you can run the following command:
 ```{r}
-monthly_temp %>% 
-  write_csv('./cleaned_data/monthly_temp.csv')
-```
-# Quickly visualize cleaned up temperature data
-It's always a good idea to take a quick look at your data to make sure nothing looks *off* (e.g., major outliers, etc)
-```{r}
-ggplot(monthly_temp, aes(x = date,
-                     y = monthlyMean, 
-                     col = siteID)) +
-  geom_point() +
-  theme_minimal()
+monthly_moisture %>% 
+  write_csv('./cleaned_data/monthly_moisture.csv')
 ```
