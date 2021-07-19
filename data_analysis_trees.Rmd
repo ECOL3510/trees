@@ -62,9 +62,9 @@ summary <- data %>%
   mutate(year = year(date)) %>% 
   group_by(siteID, year) %>% 
   summarize(n = n(),  # Sample size
-            Mean_temp = mean(monthlyMean_temp), sd_temp = sd(monthlyMean_temp), se_temp = sd_temp/sqrt(n), # Temp
-            Mean_soil = mean(monthlyMean_soil), sd_soil = sd(monthlyMean_soil), se_soil = sd_soil/sqrt(n), # Soil moisture
-            Mean_height = mean(monthlyMean_height), sd_height = sd(monthlyMean_height), se_height = sd_height/sqrt(n)) # Canopy height
+            Mean_temp = mean(monthlyMean_temp, na.rm=T), sd_temp = sd(monthlyMean_temp, na.rm=T), se_temp = sd_temp/sqrt(n), # Temp
+            Mean_soil = mean(monthlyMean_soil, na.rm=T), sd_soil = sd(monthlyMean_soil, na.rm=T), se_soil = sd_soil/sqrt(n), # Soil moisture
+            Mean_height = mean(monthlyMean_height, na.rm=T), sd_height = sd(monthlyMean_height, na.rm=T), se_height = sd_height/sqrt(n)) # Canopy height
 
 glimpse(summary)
 ```
@@ -72,7 +72,7 @@ glimpse(summary)
 To simplify reporting, we can also ask R to round all of these calculated values to a specific number of decimal places:
 ```{r}
 summary <- as_tibble(summary) %>% 
-  mutate_at(vars(mean_var1:se_var2), funs(round(.,2))) # Round each of our calculated columns to 2 decimals
+  mutate_at(vars(Mean_temp:se_height), funs(round(.,2))) # Round each of our calculated columns to 2 decimals
 
 print(summary)
 ```
@@ -86,6 +86,7 @@ ggplot(data = data, aes(x = siteID, # name the variable that goes on the x-axis
                                     y = monthlyMean_height,  # name the variable that goes on the y-axis
                                     fill = siteID)) + # name the variable to differentiate colors
   geom_boxplot() +  # Graph these variables using boxplots
+  geom_point(alpha = 0.5) +
   theme_minimal()
 ```
 ```{r}
@@ -93,13 +94,15 @@ ggplot(data = data, aes(x = siteID, # name the variable that goes on the x-axis
                                     y = monthlyMean_temp,  # name the variable that goes on the y-axis
                                     fill = siteID)) + # name the variable to differentiate colors
   geom_boxplot() +  # Graph these variables using boxplots
+  geom_point(alpha = 0.5) +
   theme_minimal()
 ```
 ```{r}
 ggplot(data = data, aes(x = siteID, # name the variable that goes on the x-axis
-                                    y = montlyMean_soil,  # name the variable that goes on the y-axis
+                                    y = monthlyMean_soil,  # name the variable that goes on the y-axis
                                     fill = siteID)) + # name the variable to differentiate colors
   geom_boxplot() +  # Graph these variables using boxplots
+  geom_point(alpha = 0.5) +
   theme_minimal()
 ```
 
@@ -113,7 +116,7 @@ temp_model <- aov(monthlyMean_temp ~ siteID, data = data)
 ```
 
 ```{r}
-soil_model <- aov(montlyMean_soil ~ siteID, data = data)
+soil_model <- aov(monthlyMean_soil ~ siteID, data = data)
 ```
 
 Next, we can use this quick command to check the ANOVA model assumptions:
@@ -198,7 +201,7 @@ ggplot(data = data, aes(x = monthlyMean_temp, # name the variable that goes on t
 ```
 
 ```{r}
-ggplot(data = data, aes(x = montlyMean_soil, # name the variable that goes on the x-axis
+ggplot(data = data, aes(x = monthlyMean_soil, # name the variable that goes on the x-axis
                                     y = monthlyMean_height,  # name the variable that goes on the y-axis
                                     col = siteID)) + # name the variable to differentiate colors
   geom_point(pch = 16) +  # Graph these variables as a scatterplot
