@@ -139,10 +139,13 @@ shapiro.test(x = aov_residuals )
 # Check for homogeneity of variance: 
 leveneTest(monthlyMean_temp ~ siteID, data = data)
 # If the p-value of Levene's test is greater than 0.05, we have not violated the assumption of homogeneity of variance
+```
 
+
+```{r, warning=F}
 # Check for normality of residuals:
 ## 1) Extract the model residuals
-aov_residuals <- residuals(object = temp_model)
+aov_residuals <- residuals(object = height_model)
 
 ## 2) Run Shapiro-Wilk test
 shapiro.test(x = aov_residuals )
@@ -168,7 +171,7 @@ If the model p-value is smaller than 0.05 (our standard alpha), we reject the nu
 
 But which site(s) are different? We'll use a post-hoc Tukey test to find out!
 ```{r}
-tukey <- tidy(TukeyHSD(model_name))
+tukey <- tidy(TukeyHSD(height_model))
 print(tukey)
 ```
 Note that the "estimate" column tells you how different the mean values of each pair of sites is.
@@ -218,8 +221,15 @@ The types of correlation you can use are:
 * Spearman: Non-parametric (e.g., if your data are not normally distributed) correlation can also take ordinal data
 
 ```{r}
-cor_alpha <- cor.test(data_object_name$independent_variable_name, 
-                      data_object_name$dependent_variable_name, 
+cor_alpha <- cor.test(data$monthlyMean_soil, 
+                      data$monthlyMean_height, 
+                      method = "pearson") # can also use method = "spearman"
+
+tidy(cor_alpha)
+```
+```{r}
+cor_alpha <- cor.test(data$monthlyMean_temp, 
+                      data$monthlyMean_height, 
                       method = "pearson") # can also use method = "spearman"
 
 tidy(cor_alpha)
@@ -227,24 +237,47 @@ tidy(cor_alpha)
 
 Now, let's set up and run a linear model to conduct a linear regression.
 ```{r}
-model_name2 <- lm(dependent_variable_name ~ independent_variable_name, data = data_object_name)
+soil_model2 <- lm(monthlyMean_height ~ monthlyMean_soil, data = data)
+```
+
+```{r}
+temp_model2 <- lm(monthlyMean_height ~ monthlyMean_temp, data = data)
 ```
 
 Next, we can use a few quick commands to check the linear regression model assumptions:
 ```{r, warning=F}
-#check_model(model_name2)
-#gvlma(model_name2)
+#check_model(soil_model2)
+gvlma(soil_model2)
+```
+
+```{r, warning=F}
+#check_model(temp_model2)
+gvlma(temp_model2)
 ```
 
 If our model assumptions seem to be satisfied, we can look at the ANOVA output! 
 ```{r}
-summary(model_name2)
+summary(soil_model2)
+```
+```{r}
+summary(temp_model2)
 ```
 
 And make a quick plot with the calculated best fit lines for each site. Remember that ecological data reporting convention is to **omit** the trend line for non-significant relationships.
+
 ```{r, message=F}
-ggplot(data = data_object_name, aes(x = dependent_variable_name, # name the variable that goes on the x-axis
-                                    y = independent_variable_name,  # name the variable that goes on the y-axis
+ggplot(data = data, aes(x = monthlyMean_height, # name the variable that goes on the x-axis
+                                    y = monthlyMean_temp,  # name the variable that goes on the y-axis
+                                    col = siteID)) + # name the variable to differentiate colors
+  geom_point(pch = 16) +  # Graph these variables as a scatterplot
+  geom_smooth(method = 'lm', aes(group=1), col = 'black', lty = 2) +  # lty=1 for solid line
+  #geom_abline(intercept = 6.81098, slope = -0.08871) +  # Alternate method than geom_smooth to specify line slope & intercept
+  theme_minimal()
+```
+
+```{r, message=F}
+ggplot(data = data, aes(x = monthlyMean_height, # name the variable that goes on the x-axis
+                                    y = monthlyMean_soil,  # name the variable that goes on the y-axis
                                     col = siteID)) + # name the variable to differentiate colors
   geom_point(pch = 16) +  # Graph these variables as a scatterplot
   geom_smooth(method = 'lm', aes(group=1), col = 'black', lty = 2) +  # lty=1 for solid line
