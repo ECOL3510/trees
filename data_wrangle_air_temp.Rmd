@@ -69,10 +69,30 @@ monthly_temp <- air_temp_sub  %>%
 
 print(monthly_temp)
 ```
+
+```{r}
+annual_temp <- air_temp_sub  %>% 
+  group_by(siteID, year) %>% 
+  summarize(annualMean_temp = mean(tempSingleMean)) %>% 
+  arrange(siteID, year) 
+```
+```{r}
+site_temp <- air_temp_sub  %>% 
+  group_by(siteID) %>% 
+  summarize(Mean_temp = mean(tempSingleMean)) 
+```
+
+
 If you want to save a copy of your *subset* data file, you can run the following command:
 ```{r}
 monthly_temp %>% 
   write_csv('./cleaned_data/monthly_temp.csv')
+
+annual_temp %>% 
+  write_csv('./cleaned_data/annual_temp.csv')
+
+site_temp %>% 
+  write_csv('./cleaned_data/site_temp.csv')
 ```
 
 # Quickly visualize cleaned up temperature data

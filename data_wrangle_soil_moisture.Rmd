@@ -70,8 +70,27 @@ monthly_moisture <- moisture_sub  %>%
 print(monthly_moisture)
 ```
 
+```{r}
+annual_moisture <- moisture_sub  %>% 
+  group_by(siteID, year) %>% 
+  summarize(annualMean_moisture = mean(VSWCMean)) %>% 
+  arrange(siteID, year)
+```
+```{r}
+site_moisture <- moisture_sub  %>% 
+  group_by(siteID) %>% 
+  summarize(Mean_moisture = mean(VSWCMean))
+```
+
+
 If you want to save a copy of your *subset* data file, you can run the following command:
 ```{r}
 monthly_moisture %>% 
   write_csv('./cleaned_data/monthly_moisture.csv')
+
+annual_moisture %>% 
+  write_csv('./cleaned_data/annual_moisture.csv')
+
+site_moisture %>% 
+  write_csv('./cleaned_data/site_moisture.csv')
 ```
