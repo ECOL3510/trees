@@ -1,0 +1,126 @@
+---
+title: "ggplot Demonstration"
+output: 
+  html_document:
+    keep_md: true
+---
+
+# Load packages
+```{r, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(palmerpenguins)
+```
+
+# Load demo data 
+```{r}
+glimpse(data)
+```
+
+# Histogram of data distribution
+```{r}
+ggplot(data = data, aes(x = monthlyMean_temp)) +
+  geom_histogram(aes(fill = siteID),
+                 alpha = 0.5,
+                 position = "identity") +
+  #scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "monthly_temp", # Specify axis label
+       fill = "siteID")
+```
+# Species as separate panels
+```{r}
+ggplot(data = penguins, aes(x = flipper_length_mm)) +
+  geom_histogram(aes(fill = species),
+                 alpha = 0.5,
+                 position = "identity") +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(x = "Flipper length (mm)", # Specify axis labels
+       y = "Frequency",
+       fill = "Penguin species") +
+  facet_grid(island ~ .)
+```
+
+# Scatterplot
+```{r}
+ggplot(data = data,aes(x = monthlyMean_temp,
+                           y = monthlyMean_height)) +
+  geom_point(aes(color = siteID), # Add data points
+             size = 3) +
+  theme_minimal() +
+  scale_x_continuous(limits = c(-5, 25),
+                     breaks = seq(-5, 25, 5)) + # Set min/max x-axis values
+  scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
+                    breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
+  #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
+  labs(x = "Monthly Mean Temperature (°C)", # Specify axis labels
+       y = "Monthly Mean Height (m)", 
+       color = "Site ID")
+```
+
+# Scatterplot with best fit lines
+```{r}
+ggplot(data = data,aes(x = monthlyMean_temp,
+                           y = monthlyMean_height)) +
+  geom_point(aes(color = siteID), # Add points
+             size = 3) +
+  theme_minimal() + 
+  scale_x_continuous(limits = c(-5, 25),
+                     breaks = seq(-5, 25, 5)) + # Set min/max x-axis values
+  scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
+                     breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
+  #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
+  labs(x = "Monthly Mean Temperature (°C)", # Set axis labels
+       y = "Monthly Mean Height (m)",
+       color = "Site ID") +
+  geom_smooth(method = "lm", se = FALSE, aes(color = siteID)) + # Add best fit lines for each species
+  theme(legend.position = c(0,1), legend.justification = c(0,1)) # Move the legend
+```
+
+```{r}
+ggplot(data = data,aes(x = monthlyMean_soil,
+                           y = monthlyMean_height)) +
+  geom_point(aes(color = siteID), # Add data points
+             size = 3) +
+  theme_minimal() +
+  scale_x_continuous(limits = c(-0.1, 0.4),
+                     breaks = seq(-0.1, 0.4, 0.1)) + # Set min/max x-axis values
+  scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
+                    breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
+  #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
+  labs(x = "Monthly Mean Soil Moisture (Cubic cm Per Cubic cm)", # Specify axis labels
+       y = "Monthly Mean Height (m)", 
+       color = "Site ID")
+```
+
+```{r}
+ggplot(data = data,aes(x = monthlyMean_soil,
+                           y = monthlyMean_height)) +
+  geom_point(aes(color = siteID), # Add points
+             size = 3) +
+  theme_minimal() + 
+  scale_x_continuous(limits = c(-0.1, 0.4),
+                     breaks = seq(-0.1, 0.4, 0.1)) + # Set min/max x-axis values
+  scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
+                     breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
+  #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
+  labs(x = "Monthly Mean Soil Moisture (Cubic cm Per Cubic cm)", # Set axis labels
+       y = "Monthly Mean Height (m)",
+       color = "Site ID") +
+  geom_smooth(method = "lm", se = FALSE, aes(color = siteID)) + # Add best fit lines for each species
+  theme(legend.position = c(0,1), legend.justification = c(0,1)) # Move the legend
+```
+
+# Boxplot with individual points
+```{r}
+ggplot(data = data,aes(x = siteID,
+                           y = monthlyMean_height)) +
+  geom_jitter(width = 0.05, alpha = 0.2) + # Add partially-transparent data points 
+  geom_boxplot(aes(fill = siteID), outlier.color = NA, 
+               alpha = 0.5) + # Plot boxplots
+  theme_minimal() +
+  #scale_fill_manual(values = c("darkorange","purple","cyan4"), # Set colors for groups
+                    #guide = 'none') + # Turn off legend for this layer
+  labs(x = "Site ID", # Specify x-axis label
+       y = "Monthly Mean Height (m)") # Specify y-axis label
+``` 
