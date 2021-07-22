@@ -1,0 +1,138 @@
+X1
+###################################
+########### Disclaimer ############
+This is the most recent readme publication based on all site-date combinations used during stackByTable.
+"Information specific to the query, including sites and dates, has been removed. The remaining content reflects general metadata for the data product."
+"All files used during stacking are listed at the bottom of this document, which includes the data publication dates."
+##################################
+"This data package been produced by and downloaded from the National Ecological Observatory Network, managed cooperatively by Battelle. These data are provided under the terms of the NEON data policy at http://data.neonscience.org/data-policy."
+DATA PRODUCT INFORMATION
+------------------------
+ID: NEON.DOM.SITE.DP1.00098.001
+Name: Relative humidity
+"Description: Relative humidity, temperature, and dew or frost point temperature, available as one- and thirty-minute averages of 1 Hz observations. Observations are made by sensors located at the top of the tower infrastructure, in the soil array, and on the aquatic meteorologic station."
+NEON Science Team Supplier: TIS
+"Abstract: This data product contains the relative humidity, air temperature, and  dew point/frost point temperature measurements made at all NEON sites. It is reported as 1-minute mean measurements and 30-minute mean values."
+Latency:
+Data collected in any given month are published during the second full week of the following month.
+"Brief Design Description: The sensors are installed at the top level of the tower infrastructure, at the soil array and on the aquatic met station at a standard height above ground level."
+Brief Study Area Description: Relative humidity is measured at all NEON terrestrial and aquatic sites except for BLWA and TOMB.
+Sensor(s): Vaisala HUMICAP Humidity and Temperature Probe - HMP 155
+"Keywords: dew point, frost point, temperature, soil array, meteorological station, air temperature, relative humidity, water content, humidity, tower top"
+DATA PACKAGE CONTENTS
+---------------------
+This data product contains up to 2 data tables:
+RH_1min - Relative Humidity averaged over 1 minute
+RH_30min - Relative Humidity averaged over 30 minutes
+"If data are unavailable for the particular sites and dates queried, some tables may be absent."
+"Basic download package definition: Includes the data product, summary statistics, expanded uncertainty, and final quality flag."
+Expanded download package definition: Includes the basic package information plus quality metrics for all of the quality assessment and quality control analyses.
+FILE NAMING CONVENTIONS
+-----------------------
+NEON data files are named using a series of component abbreviations separated by periods. File naming conventions for NEON data files differ between NEON science teams. A file will have the same name whether it is accessed via the data portal or the API.
+NEON instrumented systems (IS) data files: NEON.DOM.SITE.DPL.PRNUM.REV.HOR.VER.TMI.DESC.YYYY-MM.PKGTYPE.GENTIME.csv
+"The definitions of component abbreviations are below. See NEON.DOC.002651: NEON Data Product Numbering Convention, located at http://data.neonscience.org/documents for more information."
+"General conventions, used for all data products:"
+"NEON: denotes the organizational origin of the data product and identifies the product as operational; data collected as part of a special data collection exercise are designated by a separate, unique alphanumeric code created by the PI."
+"DOM: a three-character alphanumeric code, referring to the domain of data acquisition (D01 - D20)."
+"SITE: a four-character alphanumeric code, referring to the site of data acquisition; all sites are designated by a standardized four-character alphabetic code."
+"DPL: a three-character alphanumeric code, referring to data product processing level;"
+"PRNUM: a five-character numeric code, referring to the data product number (see the Data Product Catalog at http://data.neonscience.org/data-product-catalog)."
+"REV: a three-digit designation, referring to the revision number of the data product. The REV value is incremented by 1 each time a major change is made in instrumentation, data collection protocol, or data processing such that data from the preceding revision is not directly comparable to the new."
+"HOR: a three-character designation, referring to measurement locations within one horizontal plane. For example, if five surface measurements were taken, one at each of the five soil array plots, the number in the HOR field would range from 001-005."
+"VER: a three-character designation, referring to measurement locations within one vertical plane. For example, if eight air temperature measurements are collected, one at each tower vertical level, the number in the VER field would range from 010-080. If five soil temperature measurements are collected below the soil surface, the number in the VER field would range from 501-505."
+"TMI: a three-character designation, referring to the temporal representation, averaging period, or coverage of the data product (e.g., minute, hour, month, year, sub-hourly, day, lunar month, single instance, seasonal, annual, multi-annual). 000 = native resolution, 001 = native resolution (variable or regular) or 1 minute, 002 = 2 minute, 005 = 5 minute, 015 = 15 minute, 030 = 30 minute, 060 = 60 minutes or 1 hour, 100 = approximately once per minute at stream sites and once every 5-10 minutes at buoy sites (lakes/rivers), 101-103 ="
+NA
+DESC: an abbreviated description of the data file or table.
+YYYY-MM: the year and month of the data in the file.
+"PKGTYPE: the type of data package downloaded. Options are 'basic', representing the basic download package, or 'expanded',representing the expanded download package (see more information below)."
+"GENTIME: the date-time stamp when the file was generated, in UTC. The format of the date-time stamp is YYYYMMDDTHHmmSSZ."
+Time stamp conventions:
+YYYY: Year
+"YY: Year, last two digits only"
+MM: Month: 01-12
+DD: Day: 01-31
+T: Indicator that the time stamp is beginning
+HH: Hours: 00-23
+mm: Minutes: 00-59
+SS: Seconds: 00-59
+"Z: Universal Time Coordinated (Universal Coordinated Time), or UTC"
+ADDITIONAL INFORMATION
+----------------------
+Data products that are a source of this data product:
+Data products that are derived from this data product:
+"NEON.DOM.SITE.DP1.00004.001, Barometric pressure"
+"NEON.DOM.SITE.DP4.00001.001, Summary weather statistics"
+"Other related data products (by sensor, protocol, or variable measured):"
+"NEON.DOM.SITE.DP1.00002.001, Single aspirated air temperature"
+"NEON.DOM.SITE.DP1.00003.001, Triple aspirated air temperature"
+"NEON.DOM.SITE.DP1.20271.001, Relative humidity above water on-buoy"
+CHANGE LOG
+----------
+Issue Date: 2021-01-14
+"Issue: Safety measures to protect personnel during the COVID-19 pandemic resulted in reduced or eliminated maintenance activities for extended periods at NEON sites. Data availability and/or quality may be negatively impacted during this time, and extra scrutiny of data is advised."
+"The annual refresh of sensors and data acquisition systems (DAS) also did not occur according to the typical 1-year schedule for many sites. The annual refresh is where freshly calibrated and verified sensors and DAS replace the units that have been deployed for a year. While NEON is working towards implementing automated drift estimations/corrections on calibrated data products and flagging related to sensors that fall outside the policy for calibration frequency, this had not been implemented at the time of COVID impacts."
+The following sites had annual refreshes canceled in 2020 and will likely go up to two years of deployment for their sensors:
+BLWA (due May 2020)
+TOMB (due May 2020)
+BARR (due June 2020)
+BLUE (due Sept 2020)
+BART (due Aug 2020)
+NOGP (due Aug 2020)
+SOAP (due Sept 2020)
+Date Range: 2020-03-23 to 2021-06-01
+Location(s) Affected: ALL
+Resolution Date:
+Resolution:
+Issue Date: 2021-03-02
+Issue: Probable sensor malfunction identified during data review - large offset from similar nearby sensors
+Date Range: 2020-09-08 to 2020-09-17
+Location(s) Affected: WOOD tower top (000.040)
+Resolution Date: 2021-03-02
+Resolution: Manual flagging applied.
+Issue Date: 2020-03-26
+"Issue: Regularization rate (raw data binning) was changed from 1 Hz to 0.5 Hz in processing to more closely match the field collection rate. The averaging intervals (1-min and 30-min) for the Level 1 data product remain unchanged. The date of resolution indicates the date this change was made in forward processing. Previously processed data will be reprocessed with the new regularization rate prior to the first NEON data release, and another changelog comment will be created at that time."
+Date Range: 2020-01-07 to 2020-01-07
+Location(s) Affected: All
+Resolution Date: 2020-06-10
+Resolution: 2020-01-07: Change to regularization rate made in forward processing.
+2020-06-10: All data reprocessed with updated algorithm.
+Issue Date: 2020-03-26
+"Issue: The alpha and beta quality metric multipliers used for computing the final quality flag were swapped in processing. The final quality flag is raised when alphaQM*m + betaQM*n >= 20%. The multiplier m should be set to 2 and n should be set to 1, but these values were swapped, making it slightly harder to raise the final quality flag. These multipliers were corrected in data produced after the resolution date. Data prior to the resolution date will be reprocessed prior to the first NEON data release. An additional changelog comment"
+Date Range: 2020-01-08 to 2020-01-08
+Location(s) Affected: All
+Resolution Date: 2020-06-10
+Resolution: 2020-01-08: Processing code updated.
+2020-06-10: All data reprocessed with corrected algorithm.
+Issue Date: 2020-06-10
+"Issue: All data were reprocessed with the most recent algorithms, quality control thresholds, and/or other metadata to improve overall data coverage and quality. Notes have been added to the logs of previously identified issues that have been corrected."
+Date Range: 2013-01-01 to 2020-06-10
+Location(s) Affected: All
+Resolution Date: 2020-06-10
+Resolution:
+Issue Date: 2019-08-02
+Issue: Sensor was streaming during troubleshooting
+Date Range: 2019-06-18 to 2019-06-18
+Location(s) Affected: PUUM ML6 (HOR.VER.000.060)
+Resolution Date: 2019-08-02
+Resolution: Data manually flagged
+Issue Date: 2019-02-19
+Issue: Processing failures resulted in poor data product coverage for some sites and time periods.
+Date Range: 2018-01-01 to 2018-10-31
+Location(s) Affected: All locations.
+Resolution Date: 2019-02-19
+Resolution: Data reprocessed to improve data product coverage.
+ADDITIONAL REMARKS
+------------------
+NEON DATA POLICY AND CITATION GUIDELINES
+----------------------------------------
+Please visit http://data.neonscience.org/data-policy for more information about NEON's data policy and citation guidelines.
+DATA QUALITY AND VERSIONING
+---------------------------
+"The data contained in this file are considered provisional. Updates to the data, QA/QC and/or processing algorithms over time will occur on an as-needed basis.  Please check back to this site for updates tracked in change logs.  Query reproducibility on provisional data cannot be guaranteed."
+
+"Starting in 2020 or earlier, NEON will begin to offer static versions of each data product, annotated with a globally unique identifier. Versioned IS and OS data will be produced by reprocessing each IS and OS data product from the beginning of the data collection period to approximately 12-18 months prior to the reprocessing date (to allow for calibration checks, return of external lab data, etc.). The reprocessing step will use the most recent QA/QC methods and processing algorithms. Versioned AOP data will be produced by reprocessing"
+POST STACKING README DOCUMENTATION
+----------------------------------
+Each row contains the readme filename used during stackByTable
+NEON.D16.ABBY.DP1.00098.001.readme.20210324T151533Z.txt

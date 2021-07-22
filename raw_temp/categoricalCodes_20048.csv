@@ -1,0 +1,21 @@
+name,pubCode,description,startDate,endDate
+dsc.averageVelocityUnits,meterPerSecond,Meters per second,2012-11-01T00:00:00Z,NA
+dsc.averageVelocityUnits,centimeterPerSecond,Centimeters per second,2012-11-01T00:00:00Z,NA
+dsc.flowCalculation,Mid-section,Mid-section,2012-11-01T00:00:00Z,NA
+dsc.flowCalculation,Mean-section,Mean-section,2012-11-01T00:00:00Z,NA
+dsc.lengthUnits,meter,Meter,2012-11-01T00:00:00Z,NA
+dsc.lengthUnits,centimeter,Centimeter,2012-11-01T00:00:00Z,NA
+dsc.method,0 point,0 point,2012-11-01T00:00:00Z,NA
+dsc.method,1 point,1 point,2012-11-01T00:00:00Z,NA
+dsc.method,2 point,2 point,2012-11-01T00:00:00Z,NA
+dsc.method,3 point,3 point,2012-11-01T00:00:00Z,NA
+dsc.method,5 point,5 point,2012-11-01T00:00:00Z,NA
+dsc.method,6 point,6 point,2012-11-01T00:00:00Z,NA
+dsc.totalDischargeUnits,litersPerSecond,Liters per second,2012-11-01T00:00:00Z,NA
+dsc.totalDischargeUnits,cubicMetersPerSecond,Cubic meters per second,2012-11-01T00:00:00Z,NA
+dsc.totalDischargeUnits,cubicMetersPerSecond,Cubic meters per second,2012-11-01T00:00:00Z,NA
+dsc.wind,Upstream,Upstream,2012-01-01T00:00:00Z,NA
+dsc.wind,Downstream,Downstream,2012-01-01T00:00:00Z,NA
+dsc.wind,Cross-wind,Cross-wind,2012-01-01T00:00:00Z,NA
+dsc.wind,Mixed,Mixed,2012-01-01T00:00:00Z,NA
+dsc.wind,"NA","NA",2012-01-01T00:00:00Z,NA
