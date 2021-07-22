@@ -5,19 +5,47 @@ output:
     keep_md: true
 ---
 
-# Load packages
-```{r, message = FALSE, warning = FALSE}
-library(tidyverse)
-library(palmerpenguins)
+# Load necessary packages
+```{r}
+#install.packages('pacman', repos = "http://cran.us.r-project.org")
+pacman::p_load(tidyverse, broom, lubridate, gvlma, car)
 ```
 
-# Load demo data 
+# Load cleaned data files
+## Data type 1: Air temperature
 ```{r}
-glimpse(data)
+temp <- read_csv('./cleaned_data/monthly_temp.csv') %>% 
+  rename(monthlyMean_temp = monthlyMean)
+
+glimpse(temp)
+```
+
+## Data type 2: Soil moisture
+```{r}
+soil_moisture <- read_csv('./cleaned_data/monthly_moisture.csv') %>% 
+  rename(monthlyMean_soil = monthlyMean)
+
+glimpse(soil_moisture)
+```
+
+## Data type 3: Canopy height
+```{r}
+height <- read_csv('./cleaned_data/monthly_height.csv') %>% 
+  rename(monthlyMean_height = monthlyMean)
+
+glimpse(height)
+```
+
+```{r}
+data <- full_join(temp, soil_moisture) %>%
+  full_join(.,height) %>% 
+  mutate(siteID = factor(siteID))
+
+print(data)
 ```
 
 # Histogram of data distribution
-```{r}
+```{r, eval=F}
 ggplot(data = data, aes(x = monthlyMean_temp)) +
   geom_histogram(aes(fill = siteID),
                  alpha = 0.5,
@@ -28,7 +56,7 @@ ggplot(data = data, aes(x = monthlyMean_temp)) +
        fill = "siteID")
 ```
 # Species as separate panels
-```{r}
+```{r, eval=F}
 ggplot(data = penguins, aes(x = flipper_length_mm)) +
   geom_histogram(aes(fill = species),
                  alpha = 0.5,
@@ -42,7 +70,14 @@ ggplot(data = penguins, aes(x = flipper_length_mm)) +
 ```
 
 # Scatterplot
-```{r}
+
+---
+title: "ggplot graphs"
+output: 
+  html_document:
+    keep_md: true
+---
+```{r tempLinear}
 ggplot(data = data,aes(x = monthlyMean_temp,
                            y = monthlyMean_height)) +
   geom_point(aes(color = siteID), # Add data points
@@ -59,7 +94,7 @@ ggplot(data = data,aes(x = monthlyMean_temp,
 ```
 
 # Scatterplot with best fit lines
-```{r}
+```{r tempBestFit}
 ggplot(data = data,aes(x = monthlyMean_temp,
                            y = monthlyMean_height)) +
   geom_point(aes(color = siteID), # Add points
@@ -77,7 +112,7 @@ ggplot(data = data,aes(x = monthlyMean_temp,
   theme(legend.position = c(0,1), legend.justification = c(0,1)) # Move the legend
 ```
 
-```{r}
+```{r soilLinear}
 ggplot(data = data,aes(x = monthlyMean_soil,
                            y = monthlyMean_height)) +
   geom_point(aes(color = siteID), # Add data points
@@ -93,7 +128,7 @@ ggplot(data = data,aes(x = monthlyMean_soil,
        color = "Site ID")
 ```
 
-```{r}
+```{r soilBestFit}
 ggplot(data = data,aes(x = monthlyMean_soil,
                            y = monthlyMean_height)) +
   geom_point(aes(color = siteID), # Add points
@@ -112,7 +147,7 @@ ggplot(data = data,aes(x = monthlyMean_soil,
 ```
 
 # Boxplot with individual points
-```{r}
+```{r BoxPlot}
 ggplot(data = data,aes(x = siteID,
                            y = monthlyMean_height)) +
   geom_jitter(width = 0.05, alpha = 0.2) + # Add partially-transparent data points 
