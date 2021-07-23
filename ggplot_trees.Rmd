@@ -82,8 +82,8 @@ ggplot(data = data,aes(x = monthlyMean_temp,
   scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
                     breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
   #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
-  labs(x = "Monthly Mean Temperature (°C)", # Specify axis labels
-       y = "Monthly Mean Height (m)", 
+  labs(x = "Mean Air Temperature (°C)", # Specify axis labels
+       y = "Mean Canopy Height (m)", 
        color = "Site ID")
 ```
 
@@ -99,8 +99,8 @@ ggplot(data = data,aes(x = monthlyMean_temp,
   scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
                      breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
   #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
-  labs(x = "Monthly Mean Temperature (°C)", # Set axis labels
-       y = "Monthly Mean Height (m)",
+  labs(x = "Mean Air Temperature (°C)", # Set axis labels
+       y = "Mean Canopy Height (m)",
        color = "Site ID") +
   geom_smooth(method = "lm", se = FALSE, aes(color = siteID)) + # Add best fit lines for each species
   theme(legend.position = c(0,1), legend.justification = c(0,1)) # Move the legend
@@ -117,8 +117,8 @@ ggplot(data = data,aes(x = monthlyMean_soil,
   scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
                     breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
   #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
-  labs(x = "Monthly Mean Soil Moisture (Cubic cm Per Cubic cm)", # Specify axis labels
-       y = "Monthly Mean Height (m)", 
+  labs(x = "Mean Soil Moisture (Cubic cm Per Cubic cm)", # Specify axis labels
+       y = "Mean Canopy Height (m)", 
        color = "Site ID")
 ```
 
@@ -133,8 +133,8 @@ ggplot(data = data,aes(x = monthlyMean_soil,
   scale_y_continuous(limits = c(0, 12.5), # Set min/max y-axis values
                      breaks = seq(0, 12.5, 2.5)) + # Specify axis break values
   #scale_color_manual(values = c("darkorange","purple","cyan4")) + # Specify custom colors
-  labs(x = "Monthly Mean Soil Moisture (Cubic cm Per Cubic cm)", # Set axis labels
-       y = "Monthly Mean Height (m)",
+  labs(x = "Mean Soil Moisture (Cubic cm Per Cubic cm)", # Set axis labels
+       y = "Mean Canopy Height (m)",
        color = "Site ID") +
   geom_smooth(method = "lm", se = FALSE, aes(color = siteID)) + # Add best fit lines for each species
   theme(legend.position = c(0,1), legend.justification = c(0,1)) # Move the legend
@@ -151,5 +151,5 @@ ggplot(data = data,aes(x = siteID,
   #scale_fill_manual(values = c("darkorange","purple","cyan4"), # Set colors for groups
                     #guide = 'none') + # Turn off legend for this layer
   labs(x = "Site ID", # Specify x-axis label
-       y = "Monthly Mean Height (m)") # Specify y-axis label
+       y = "Mean Canopy Height (m)") # Specify y-axis label
 ``` 
