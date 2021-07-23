@@ -71,12 +71,6 @@ ggplot(data = penguins, aes(x = flipper_length_mm)) +
 
 # Scatterplot
 
----
-title: "ggplot graphs"
-output: 
-  html_document:
-    keep_md: true
----
 ```{r tempLinear}
 ggplot(data = data,aes(x = monthlyMean_temp,
                            y = monthlyMean_height)) +
